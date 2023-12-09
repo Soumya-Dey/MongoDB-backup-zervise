@@ -88,7 +88,7 @@ const backupAndSync = (
 // 1. Cron expression for every 5 seconds - */5 * * * * *
 // 2. Cron expression for every night at 04:30 UTC or 10:00 IST hours (30 4 * * * )
 // Scheduling the backup every day at 00:00
-cron.schedule('0 0 * * *', () =>
+cron.schedule('30 4 * * *', () =>
   backupAndSync(DB_NAME, RCLONE_REMOTE, 'ZerviseBackUp')
 );
 // backupAndSync(DB_NAME, RCLONE_REMOTE, 'ZerviseBackUp');
