@@ -19,18 +19,13 @@ const backupAndSync = (
 ) => {
   console.log('\nStarting mongodb backup...\n');
 
-  const today = new Date(new Date().getTime() + 19800000);
+  // const today = new Date(new Date().getTime() + 19800000);
   const FOLDER_PATH = path.join(
     __dirname,
-    'backup',
-    `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`
+    'backup'
+    // `${today.getDate()}-${today.getMonth() + 1}-${today.getFullYear()}`
   );
-  const ARCHIVE_PATH = path.join(
-    FOLDER_PATH,
-    `${DB_NAME}_${today.getDate()}-${
-      today.getMonth() + 1
-    }-${today.getFullYear()}_${today.getHours()}-${today.getMinutes()}-${today.getSeconds()}.gzip`
-  );
+  const ARCHIVE_PATH = path.join(FOLDER_PATH, `${DB_NAME}.gzip`);
   if (!fs.existsSync(FOLDER_PATH))
     fs.mkdirSync(FOLDER_PATH, { recursive: true });
 
