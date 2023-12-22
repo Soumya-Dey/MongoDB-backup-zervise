@@ -49,7 +49,7 @@ const copyLogs = (rcloneRemote = RCLONE_REMOTE, rcloneDest = RCLONE_DEST) => {
   const LOG_PATH = path.join(__dirname, 'backup', `pm2-logs/`);
   if (!fs.existsSync(LOG_PATH)) fs.mkdirSync(LOG_PATH, { recursive: true });
 
-  const child = spawn('cp', ['/root/.pm2/logs/service-desk*.log', LOG_PATH]);
+  const child = spawn('cp', ['-r', '/root/.pm2/logs/', LOG_PATH]);
 
   child.stdout.on('data', (data) => {
     console.log('output:\n', data);
@@ -65,9 +65,8 @@ const copyLogs = (rcloneRemote = RCLONE_REMOTE, rcloneDest = RCLONE_DEST) => {
     else if (signal) console.log('Process killed with signal:', signal);
     else {
       console.log('Pm2 log file copy is successfull. ✅');
-
-      sync(rcloneRemote, rcloneDest);
     }
+    sync(rcloneRemote, rcloneDest);
   });
 };
 
@@ -119,5 +118,5 @@ const backup = (
 // 1. Cron expression for every 5 seconds - */5 * * * * *
 // 2. Cron expression for every night at 04:30 UTC or 10:00 IST hours - 30 4 * * *
 // Scheduling the backup every day at 00:00
-cron.schedule('30 4 * * *', () => backup(DB_NAME, RCLONE_REMOTE, RCLONE_DEST));
-// backup(DB_NAME, RCLONE_REMOTE, RCLONE_DEST);
+// cron.schedule('30 4 * * *', () => backup(DB_NAME, RCLONE_REMOTE, RCLONE_DEST));
+backup(DB_NAME, RCLONE_REMOTE, RCLONE_DEST);
